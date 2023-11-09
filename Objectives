@@ -1,0 +1,22 @@
+Finding the features on which a response variable depends (or not)
+
+Normalizing the features:
+    The features are then scaled in order to bring them in range of (0,1) to make better analysis.
+    This can be done by changing the value of each feature by
+
+
+i = 0
+j = 0
+
+for i in range(500):
+    j = (x-y)**2
+print(j)
+J = np.sum(j)/1000
+print(J)
+
+i = 0
+w = 0
+for i in range(500):
+    w -= 0.01*(x-y)*x
+W = np.sum(w)/500
+print(W)
