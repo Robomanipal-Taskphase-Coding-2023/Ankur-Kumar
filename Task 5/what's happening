@@ -1,0 +1,57 @@
+Tracks the ball, based on ten different positions predicts the trajectory
+
+Poly-regression
+
+Packages installed:OpenCV Numpy Math( Included in Open CV)
+
+
+We can use webcam as well.
+
+#Display
+cv2.resize() resizes the image to resolution that fits the screen.
+cv2.waitKey() slows the video for us to look at it. The algorithm works regarless of it being fast or slow
+
+We have a picture ball.png. We use it to find the color of the ball and then find that in the video.
+
+success, img = cap.read() is when you want to use it for the video...
+
+#Cropping
+#img = img[0:900, :]
+Treating the image as a matrix and cropping out only on the y axis i.e. height!
+Maybe you don't want to crop the top part where the ball travels.
+
+To find color, we are using CVZONE, requires fewer lines of code.
+from cvzone.ColorModule import ColorFinder
+
+myColorFinder = ColorFinder(Ture) running the debug mode and can find the sat and hue values for the ball color.
+(False) means we are no longer running debug mode and running the actual code.
+
+imgColor, mask = myColorFinder.update(img, hsvVals) is an important code, you get the ball.png image and
+bars to adjust values and your goal is to keep the ball and black eveything else. When you run it you will
+find hsv values in the console.
+
+#Contours
+We are finding the location of the ball using contours
+
+Every point we know it's position we put a circle there.
+So basically contours thing highlights the box, I don't know how it does it it jsut works.
+
+#Polynomial Regression
+The best fit curve( not line, not linear regression). It's going to come with a polynomial equation, in this case
+a quadratic equation.
+  y = Ax2 + Bx + C
+If you can find the values of A B C for a given x then you can find y and maybe somehow you could use that to
+predict whether the ball goes in or not.
+
+Polynomial regression requires two lists, X & Y
+We feed that in we get a curve.
+A, B, C = np.polyfit(posListX, posListY, 2) basically the important line for pol reg, two list, 2 degree
+
+To store position co-ordinates we are using lists.
+
+Few tweaks in for loops. Like I don't know how zip works but just writing it down.
+So now we have coefficients.
+
+#
+Ok so in paint we take the image we find the pixels of the edges of the basked. Logic, if the ball position falls
+in the x values of the rim for the height y coordinate, the ball goes in.
